@@ -7,6 +7,7 @@
     - [实验提示](#实验提示)
     - [任务3：栈空间分配](#任务3栈空间分配)
   - [思考题](#思考题)
+  - [评测说明](#评测说明)
   - [其他](#其他)
 
 ## 运行时空间管理与代码生成（选做）
@@ -102,6 +103,27 @@ l0:
 1. 由于指令长度有限，所以指令的立即数是有范围的。请查阅相关资料，了解在ARM 的代码生成中如何处理超范围立即数问题，并在[answer.md](answer.md)中进行说明。
 2. 在本实验框架给出的IR实现中，可以通过强制给phi指令涉及到的所有虚寄存器分配相同的物理寄存器（或栈地址）来规避phi指令移动吗，为什么？
 3. 如何在寄存器分配的时候结合函数调用ABI以及Phi指令的要求产生更高效率的代码？
+
+### 评测说明
+
+在完成全部3关后，你可以在平台点击评测按钮进行评测。评测结束后会在项目根目录创建`test.log`，包含每个测例是否通过的信息。评测时使用交叉编译器`arm-linux-gnueabihf-gcc`以及`qemu`在x86平台上编译并执行`compiler`输出的arm汇编码。
+
+若你想在本地使用交叉编译器并使用`qemu`模拟arm执行，可以按以下步骤（以`ubuntu22.04`为例）：
+
+1. 安装交叉编译工具链和 QEMU
+```bash
+sudo apt update
+sudo apt install gcc-arm-linux-gnueabihf binutils-arm-linux-gnueabihf qemu-user qemu-user-static
+```
+2. 交叉编译。
+假设`compiler`输出的文件是`test.s`，并且当前在项目根目录：
+```bash
+arm-linux-gnueabihf-gcc test.s lib/lib.c -o test.out
+```
+3. 使用`qemu`模拟arm环境执行
+```bash
+qemu-arm -L /usr/arm-linux-gnueabihf ./test.out
+```
 
 ### 其他
 
